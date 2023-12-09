@@ -30,7 +30,7 @@ export const RainbowKitCustomConnectButton = () => {
               if (!connected) {
                 return (
                   <button
-                    className="h-8 px-8 rounded-md font-white bg-[#d73cbe] btn-sm"
+                    className="h-8 px-8 rounded-md text-white bg-[#d73cbe] btn-sm hover:opacity-70 active:scale-90"
                     onClick={openConnectModal}
                     type="button"
                   >

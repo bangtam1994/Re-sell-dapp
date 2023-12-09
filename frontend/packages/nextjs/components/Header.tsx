@@ -6,7 +6,7 @@ import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaff
 
 export const Header = () => {
   return (
-    <div className="sticky h-28 border-b-[1px] border-white lg:static top-0 navbar min-h-0 flex-shrink-0 justify-between z-20 px-0 sm:px-2">
+    <div className="sticky h-28 border-b-[1px] border-white lg:static top-0 navbar min-h-0 flex-shrink-0 justify-between z-50 px-0 sm:px-2">
       <Link href={"/"}>
         <div style={{ position: "relative" }}>
           <span

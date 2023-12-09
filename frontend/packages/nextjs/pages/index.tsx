@@ -6,12 +6,12 @@ import { Divider } from "~~/components/Divider";
 import { MetaHeader } from "~~/components/MetaHeader";
 
 const Home: NextPage = () => {
-  const { address, isConnecting, isDisconnected } = useAccount();
+  const { isDisconnected } = useAccount();
   return (
     <div className="relative">
       <MetaHeader />
       {!isDisconnected && (
-        <div className="text-center z-40 mt-3 sm:absolute sm:right-6 sm:top-6">
+        <div className="text-center z-30 mt-3 sm:absolute sm:right-6 sm:top-6">
           <Button full link={"/create-event"}>
             Create Event
           </Button>
