@@ -21,13 +21,8 @@ h2,
 h3,
 h4 {
   margin: 0;
-  margin-left: 20px;
   line-height: 1;
-  transform: scale(1.4, 0.9);
-  -webkit-transform: scale(1.4, 0.9);
-  -moz-transform: scale(1, 0.9);
-  -ms-transform: scale(1, 0.9);
-  -o-transform: scale(1, 0.9);
+  letter-spacing: 200%;
 }
 
 p {

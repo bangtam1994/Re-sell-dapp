@@ -71,6 +71,7 @@ module.exports = {
   },
   theme: {
     extend: {
+      fontFamily: { orbitron: ["var(--font-oribtron)"] },
       boxShadow: {
         center: "0 0 12px -2px rgb(0 0 0 / 0.05)",
       },

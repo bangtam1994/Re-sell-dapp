@@ -23,8 +23,8 @@ export const Header = () => {
           <Image alt="logo" src={"/nav_logo2.png"} width={80} height={80} />
         </div>
         <div className="m-4">
-          <h1 className="font-thin">RE-SELL PROFIT</h1>
-          <h1 className="font-thin">EVENTS</h1>
+          <h1 className="font-orbitron">RE-SELL PROFIT</h1>
+          <h1 className="font-orbitron">EVENTS</h1>
         </div>
       </Link>
       <div className="navbar-end flex-grow mr-4">
