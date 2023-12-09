@@ -6,14 +6,29 @@ import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaff
 
 export const Header = () => {
   return (
-    <div className="sticky lg:static top-0 navbar bg-base-100 min-h-0 flex-shrink-0 justify-between z-20 shadow-md shadow-secondary px-0 sm:px-2">
-      <div>
-        <h1>Logo Placeholder</h1>
-        <h1>RE-SELL PROFIT EVENTS</h1>
-      </div>
+    <div className="sticky h-28 border-b-[1px] border-white lg:static top-0 navbar min-h-0 flex-shrink-0 justify-between z-20 px-0 sm:px-2">
+      <Link href={"/"}>
+        <div style={{ position: "relative" }}>
+          <span
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              fontSize: "1.3rem",
+            }}
+          >
+            R
+          </span>
+          <Image alt="logo" src={"/nav_logo2.png"} width={80} height={80} />
+        </div>
+        <div className="m-4">
+          <h1 className="font-thin">RE-SELL PROFIT</h1>
+          <h1 className="font-thin">EVENTS</h1>
+        </div>
+      </Link>
       <div className="navbar-end flex-grow mr-4">
         <RainbowKitCustomConnectButton />
-        <FaucetButton />
       </div>
     </div>
   );
