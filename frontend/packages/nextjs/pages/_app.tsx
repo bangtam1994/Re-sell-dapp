@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
+import { Orbitron } from "next/font/google";
 import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import NextNProgress from "nextjs-progressbar";
@@ -13,12 +14,17 @@ import { wagmiConfig } from "~~/services/web3/wagmiConfig";
 import { appChains } from "~~/services/web3/wagmiConnectors";
 import "~~/styles/globals.css";
 
+const oribtron = Orbitron({
+  variable: "--font-oribtron",
+  preload: false,
+});
+
 const ScaffoldEthApp = ({ Component, pageProps }: AppProps) => {
   return (
     <>
-      <div className="flex flex-col min-h-screen">
+      <div className={`${oribtron.variable} flex flex-col min-h-screen`}>
         <Header />
-        <main className="relative flex flex-col flex-1">
+        <main className={`${oribtron.variable} relative flex flex-col flex-1`}>
           <Component {...pageProps} />
         </main>
       </div>
