@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1231351234123",
+    "name": "The Event Equation",
+    "artist": "Justin Bieber",
+    "artistAddress": "dummyAddress1",
+    "date": "2023-12-28",
+    "price": null,
+    "ticketsBooked": 1232,
+    "totalTickets": 4000,
+    "attending": false,
+    "thumbnail": "/event_2.jpg"
+  },
+  {
+    "id": "456782456724",
+    "name": "Grand Gatherings",
+    "artist": "Tailor Swift",
+    "artistAddress": "dummyAddress2",
+    "date": "2023-12-28",
+    "price": null,
+    "ticketsBooked": 4000,
+    "totalTickets": 4000,
+    "attending": true,
+    "thumbnail": "/event_1.jpg"
+  },
+  {
+    "id": "0579838756245",
+    "name": "Sparkle Soirees",
+    "artist": "Justin Bieber",
+    "artistAddress": "dummyAddress1",
+    "date": "2023-12-28",
+    "price": null,
+    "ticketsBooked": 1232,
+    "totalTickets": 4000,
+    "attending": false,
+    "thumbnail": "/event_2.jpg"
+  },
+  {
+    "id": "656398456723567",
+    "name": "Vibrant Visions",
+    "artist": "Justin Bieber",
+    "artistAddress": "dummyAddress1",
+    "date": "2023-12-28",
+    "price": null,
+    "ticketsBooked": 3999,
+    "totalTickets": 4000,
+    "attending": false,
+    "thumbnail": "/event_2.jpg"
+  },
+  {
+    "id": "1235123351256",
+    "name": "Dreamy Destinations",
+    "artist": "Me",
+    "artistAddress": "YOUR_ADDRESS",
+    "date": "2023-12-28",
+    "price": null,
+    "ticketsBooked": 6,
+    "totalTickets": 20,
+    "attending": false,
+    "thumbnail": "/event_me.jpg"
+  }
+]

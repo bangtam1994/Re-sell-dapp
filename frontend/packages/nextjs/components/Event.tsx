@@ -26,7 +26,7 @@ export const EventLink = ({ event }: Props) => {
 
   return (
     <Link href={`/event/${event.id}`}>
-      <li className="flex items-center rounded-md py-6 px-4 bg-[#b7bfbf] my-2 h-8 hover:opacity-80 active:scale-[99%]">
+      <li className="font-jura flex items-center rounded-md py-6 px-4 bg-[#b7bfbf] my-4 h-20 hover:opacity-80 active:scale-[99%] text-black">
         <div className="w-full grid grid-cols-5 justify-between center">
           <span>{event.name}</span>
           <span>{event.artist}</span>
