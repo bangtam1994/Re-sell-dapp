@@ -1,4 +1,7 @@
+import { useState } from "react";
 import Image from "next/image";
+import { Event } from "../interfaces/interfaces";
+import dummyDataJson from "./dummyEvents.json";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { Button } from "~~/components/Button";
@@ -6,92 +9,26 @@ import { Divider } from "~~/components/Divider";
 import { EventLink } from "~~/components/Event";
 import { MetaHeader } from "~~/components/MetaHeader";
 
-const YOUR_ADDRESS = "0xBAF5cdEAD710e3347Dc3862E38a4044EAc50A036";
-
-export type Event = {
-  id: string;
-  name: string;
-  artist: string;
-  artistAddress: string;
-  date: string; // todo
-  price: number | null;
-  ticketsBooked: number;
-  totalTickets: number;
-  attending: boolean;
-};
-
-const dummyData: Event[] = [
-  {
-    id: "1231351234123",
-    name: "The Event Equation",
-    artist: "Justin Bieber",
-    artistAddress: "dummyAddress1",
-    date: "2023-12-28",
-    price: null,
-    ticketsBooked: 1232,
-    totalTickets: 4000,
-    attending: false,
-  },
-  {
-    id: "456782456724",
-    name: "Grand Gatherings",
-    artist: "Tailor Swift",
-    artistAddress: "dummyAddress2",
-    date: "2023-12-28",
-    price: null,
-    ticketsBooked: 4000,
-    totalTickets: 4000,
-    attending: true,
-  },
-  {
-    id: "0579838756245",
-    name: "Sparkle Soirees",
-    artist: "Justin Bieber",
-    artistAddress: "dummyAddress1",
-    date: "2023-12-28",
-    price: null,
-    ticketsBooked: 1232,
-    totalTickets: 4000,
-    attending: false,
-  },
-  {
-    id: "656398456723567",
-    name: "Vibrant Visions",
-    artist: "Justin Bieber",
-    artistAddress: "dummyAddress1",
-    date: "2023-12-28",
-    price: null,
-    ticketsBooked: 3999,
-    totalTickets: 4000,
-    attending: false,
-  },
-  {
-    id: "1235123351256",
-    name: "Dreamy Destinations",
-    artist: "Me",
-    artistAddress: YOUR_ADDRESS,
-    date: "2023-12-28",
-    price: null,
-    ticketsBooked: 6,
-    totalTickets: 20,
-    attending: false,
-  },
-];
-
 const Home: NextPage = () => {
-  const { address, isConnecting, isDisconnected } = useAccount();
+  const { address, isDisconnected } = useAccount();
 
   // todo: hook for data fetching
+  const dummyData: Event[] = dummyDataJson.map((el: Event) => {
+    if (el.artistAddress === "YOUR_ADDRESS") {
+      return { ...el, artistAddress: process.env.NEXT_PUBLIC_WALLET_ADDRESS || "my_wallet_address" };
+    } else return el;
+  });
+  const [events, setEvents] = useState<Event[]>(dummyData);
 
-  const myEvents = dummyData.filter(event => event.artistAddress === address);
-  const eventsAttending = dummyData.filter(event => event.attending);
-  const remainingEvents = dummyData.filter(event => event.artistAddress !== address && !event.attending);
+  const myEvents = events.filter(event => event.artistAddress === address);
+  const eventsAttending = events.filter(event => event.attending);
+  const remainingEvents = events.filter(event => event.artistAddress !== address && !event.attending);
 
   return (
     <div className="relative">
       <MetaHeader />
       {!isDisconnected && (
-        <div className="text-center z-40 mt-3 sm:absolute sm:right-6 sm:top-6">
+        <div className="text-center z-40 mt-3 sm:absolute sm:right-6 sm:top-6 z-1">
           <Button full link={"/create-event"}>
             Create Event
           </Button>
@@ -120,7 +57,7 @@ const Home: NextPage = () => {
           {myEvents && (
             <ul>
               {myEvents.map(event => (
-                <EventLink event={event} />
+                <EventLink event={event} key={event.id} />
               ))}
             </ul>
           )}
@@ -128,7 +65,7 @@ const Home: NextPage = () => {
           {eventsAttending && (
             <ul>
               {eventsAttending.map(event => (
-                <EventLink event={event} />
+                <EventLink event={event} key={event.id} />
               ))}
             </ul>
           )}
@@ -136,7 +73,7 @@ const Home: NextPage = () => {
           {remainingEvents && (
             <ul>
               {remainingEvents.map(event => (
-                <EventLink event={event} />
+                <EventLink event={event} key={event.id} />
               ))}
             </ul>
           )}

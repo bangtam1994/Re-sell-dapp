@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
-import { Orbitron } from "next/font/google";
+import { Jura, M_PLUS_1_Code, Orbitron } from "next/font/google";
 import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import NextNProgress from "nextjs-progressbar";
@@ -18,13 +18,17 @@ const oribtron = Orbitron({
   variable: "--font-oribtron",
   preload: false,
 });
+const jura = Jura({
+  variable: "--font-jura",
+  preload: false,
+});
 
 const ScaffoldEthApp = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <div className={`${oribtron.variable} flex flex-col min-h-screen`}>
         <Header />
-        <main className={`${oribtron.variable} relative flex flex-col flex-1`}>
+        <main className={`${oribtron.variable} ${jura.variable} font-bold relative flex flex-col flex-1`}>
           <Component {...pageProps} />
         </main>
       </div>
