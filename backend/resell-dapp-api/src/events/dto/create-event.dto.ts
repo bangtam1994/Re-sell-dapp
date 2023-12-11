@@ -4,11 +4,15 @@ export class CreateEventDto {
   @ApiProperty()
   name: string;
   @ApiProperty()
-  type: string;
+  contractAddress: string;
   @ApiProperty()
   artistAddress: string;
   @ApiProperty()
+  artistName: string;
+  @ApiProperty()
   eventDate: string;
   @ApiProperty()
-  feePercentage: string;
+  price: number;
+  @ApiProperty()
+  quantity: number;
 }

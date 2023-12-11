@@ -2,10 +2,14 @@ import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Event } from './schemas/event.schema';
+import { CreateEventDto } from './dto/create-event.dto';
 
 @Injectable()
 export class EventService {
   constructor(@InjectModel(Event.name) private eventModel: Model<Event>) {}
 
-  async create() {}
+  async create(createEventDto: CreateEventDto): Promise<Event> {
+    const createdEvent = new this.eventModel(createEventDto);
+    return createdEvent.save();
+  }
 }
