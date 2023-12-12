@@ -6,9 +6,9 @@ export class TicketDto {
   @ApiProperty()
   owner_address: string;
   @ApiProperty()
-  onSale: string;
+  onSale: boolean;
   @ApiProperty()
-  price: string;
+  price: number;
   @ApiProperty()
   date: string;
 }
