@@ -2,6 +2,8 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { Buy } from "../../components/Buy";
+import { List } from "../../components/List";
 import { ResellInput } from "../../components/ResellInput";
 import { Ticket } from "../../interfaces/interfaces";
 import dummyDataJson from "../dummyEvents.json";
@@ -87,7 +89,7 @@ const Event = () => {
               />
               <h3 className="text-xl md:text-1xl font-jura  underline underline-offset-8 my-10"> MY TICKET</h3>
               {!isAttending ? (
-                <span className="font-light">You don't have any tickets yet</span>
+                <Buy />
               ) : (
                 isAttending &&
                 myTickets.length > 0 && (
