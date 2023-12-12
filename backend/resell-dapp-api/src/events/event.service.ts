@@ -106,35 +106,54 @@ export class EventService {
       );
     }
   }
-  // ) {
-  //   const event = await this.eventModel.findOne({
-  //     eventAddress: eventAddress,
-  //   });
-  //   if (event) {
-  //     const tickets = event.ticketList.filter(
-  //       (ticket) => ticket.owner_address === ownerAddress,
-  //     );
-  //     if (tickets.length < quantity) {
-  //       throw new HttpException(
-  //         {
-  //           status: HttpStatus.BAD_REQUEST,
-  //           error: 'Not enough tickets',
-  //         },
-  //         HttpStatus.BAD_REQUEST,
-  //       );
-  //     } else {
-  //       change the onSale property of the tickets to true
-  //       tickets.forEach((ticket) => (ticket.onSale = true));
-  //       return await event.save();
-  //     }
-  //   } else {
-  //     throw new HttpException(
-  //       {
-  //         status: HttpStatus.NOT_FOUND,
-  //         error: 'Event not found',
-  //       },
-  //       HttpStatus.NOT_FOUND,
-  //     );
-  //   }
-  // }
+
+  async getEvents(userAddress: string) {
+    // fetch all events from the database
+    const events = await this.eventModel.find().exec();
+
+    // iterate over the events
+    const attendingEvents = [];
+    const myEvents = [];
+    const remainingEvents = [];
+
+    events.forEach((event) => {
+      // check if the user is the artist
+      if (event.artistAddress === userAddress) {
+        myEvents.push(event);
+      } else {
+        // check if the user is attending the event
+        const ticket = event.ticketList.find(
+          (ticket) => ticket.owner_address === userAddress,
+        );
+        if (ticket) {
+          attendingEvents.push(event);
+        } else {
+          remainingEvents.push(event);
+        }
+      }
+    });
+
+    return {
+      attendingEvents,
+      myEvents,
+      remainingEvents,
+    };
+  }
+
+  async getEventById(eventAddress: string) {
+    const event = await this.eventModel.findOne({
+      contractAddress: eventAddress,
+    });
+    if (event) {
+      return event;
+    } else {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'Event not found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
 }

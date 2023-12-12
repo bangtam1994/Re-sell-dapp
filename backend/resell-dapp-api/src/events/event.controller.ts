@@ -1,13 +1,4 @@
-import {
-  Body,
-  Param,
-  Query,
-  Controller,
-  Post,
-  Put,
-  HttpStatus,
-  HttpException,
-} from '@nestjs/common';
+import { Body, Param, Controller, Post, Put, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateEventDto } from './dto/create-event.dto';
 import { TicketDto } from './dto/ticket.dto';
@@ -42,12 +33,15 @@ export class EventController {
     return this.eventService.updateTicket(eventAddress, ticketDto);
   }
 
-  // Buys a ticket (passing the event contract address as a parameter, the buyer address as a query parameter)
-  // @Put('/:eventAddress/buy-ticket')
-  // async buyTicket(
-  //   @Query('buyerAddress') buyerAddress: string,
-  //   @Param('eventAddress') eventAddress: string,
-  // ) {
-  //   return this.eventService.buyTicket(buyerAddress, eventAddress);
-  // }
+  // Gets all the events of an user from the database
+  @Get('/events/:userAddress')
+  async getEvents(@Param('userAddress') userAddress: string) {
+    return this.eventService.getEvents(userAddress);
+  }
+
+  // Gets one event by its contract address
+  @Get('/event/:eventAddress')
+  async getEventById(@Param('eventAddress') eventAddress: string) {
+    return this.eventService.getEventById(eventAddress);
+  }
 }

@@ -8,7 +8,7 @@ export class TicketDto {
   @ApiProperty()
   onSale: boolean;
   @ApiProperty()
-  price: string;
+  price: number;
   @ApiProperty()
   date: string;
 }
