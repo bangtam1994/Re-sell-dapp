@@ -1,20 +1,32 @@
 export interface Ticket {
-  nft_address: string;
+  ticket_address: string;
   owner_address: string;
   onSale: boolean;
   price: number;
-  date: string; // date of mint ?
+  date: string; // date of mint
 }
 
 export type Event = {
-  id: string;
+  id: string; // is the event contract_address
   name: string;
-  artist: string;
+  artistName: string;
   artistAddress: string;
-  date: string; // todo
+  eventDate: string;
   price: number | null;
   ticketsBooked: number;
   totalTickets: number;
-  attending: boolean;
   thumbnail: string;
+};
+
+// this is the result from api, hence "raw"
+export type EventRaw = {
+  artistAddress: string;
+  artistName: string;
+  contractAddress: string;
+  eventDate: string;
+  name: string;
+  price: number;
+  quantity: number;
+  ticketList: [];
+  _id: string;
 };
