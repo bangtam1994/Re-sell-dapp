@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react";
 import * as EventContract from "./../contract/Ticket.json";
-import { useAccount } from "wagmi";
+import { createPublicClient, createWalletClient, custom, getContractAddress, http } from "viem";
+import { useAccount, useNetwork } from "wagmi";
 import { Button } from "~~/components/Button";
 
 type FormData = {
@@ -13,7 +14,8 @@ type FormData = {
 };
 
 const CreateEvent = () => {
-  const { isDisconnected } = useAccount();
+  const { isDisconnected, address } = useAccount();
+  const { chain } = useNetwork();
 
   const [formData, setFormData] = useState<FormData>({
     eventName: undefined,
@@ -31,7 +33,7 @@ const CreateEvent = () => {
     });
   };
 
-  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (
       !formData.eventName ||
@@ -43,9 +45,48 @@ const CreateEvent = () => {
     )
       return;
 
+    const eventDataAsUnixTimestamp = Math.round(new Date(formData.eventDate).getTime());
+
     console.log(formData);
-    // deploy contract
+
+    const walletClient = createWalletClient({
+      chain: chain,
+      transport: custom(window.ethereum),
+    });
+
+    const publicClient = createPublicClient({
+      chain: chain,
+      transport: http(),
+    });
+
+    if (!address) throw new Error("No address available");
+
+    const hash = await walletClient.deployContract({
+      abi: EventContract.abi,
+      account: address,
+      args: [
+        formData.eventName,
+        eventDataAsUnixTimestamp,
+        formData.ticketPrice,
+        formData.ticketQuantity,
+        formData.artistName,
+        formData.royalty,
+      ],
+      bytecode: EventContract.bytecode as `0x${string}`,
+    });
+
+    const transactionCount = await publicClient.getTransactionCount({
+      address,
+    });
+    const contractAddress = getContractAddress({
+      from: address,
+      nonce: BigInt(transactionCount),
+    });
+
+    console.log(contractAddress);
+
     // POST to DB
+    fetch("");
 
     setFormData({
       eventName: undefined,
