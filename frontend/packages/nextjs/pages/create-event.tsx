@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import * as EventContract from "./../contract/Ticket.json";
+import * as EventContract from "./../contract/Event.json";
 import { createPublicClient, createWalletClient, custom, getContractAddress, http } from "viem";
 import { useAccount, useNetwork } from "wagmi";
 import { Button } from "~~/components/Button";

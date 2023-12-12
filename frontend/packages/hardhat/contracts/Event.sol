@@ -3,7 +3,7 @@ pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-contract Ticket is ERC721 {
+contract Event is ERC721 {
 	uint256 public constant TYPE1 = 0;
 	string public eventName;
 	string public eventDate;
@@ -38,8 +38,7 @@ contract Ticket is ERC721 {
 		);
 		require(msg.value >= ticketPrice, "Insufficient funds sent");
 		if (ticketQuantity > 0) {
-			// changed this
-			ticketQuantity -= 1; // moved this
+			ticketQuantity -= 1;
 			// why is the balanceOf increased?
 			payable(eventCreator).transfer(ticketPrice);
 			_safeMint(msg.sender, nftId);
@@ -59,9 +58,6 @@ contract Ticket is ERC721 {
 			ownerOf(nftId) == msg.sender,
 			"You are not the owner of this ticket"
 		);
-		// what does this require do?
-		require(ticketQuantity > 0, "No more tickets available");
-		// remove from current owner account? or only once tranferred?
 		onSale.push(nftId);
 	}
 
