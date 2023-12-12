@@ -20,8 +20,8 @@ const Event = () => {
   const [isLoadingEvents, setIsLoadingEvents] = useState(false);
   const [isLoadingTickets, setIsLoadingTickets] = useState(false);
 
-  const isAttending = eventData && eventData.attending;
-  const canResell = eventData && eventData.totalTickets - eventData.ticketsBooked === 0; // only resell possible if all tickets are sold
+  const isAttending = false;
+  // const isAttending = eventData && eventData.attending;
 
   // todo: hook for data fetching GET - Event Data/:id
 
@@ -109,7 +109,7 @@ const Event = () => {
                       ))}{" "}
                     </div>
 
-                    {canResell && <ResellInput mytickets={myTickets} />}
+                    <ResellInput mytickets={myTickets} />
                   </div>
                 )
               )}

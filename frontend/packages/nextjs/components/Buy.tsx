@@ -16,7 +16,6 @@ export function Buy() {
     address: contractAddress,
     abi: EventContract.abi,
     functionName: "buy",
-    args: [1],
   });
 
   return (
