@@ -1,6 +1,7 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Param, Controller, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateEventDto } from './dto/create-event.dto';
+import { TicketDto } from './dto/ticket.dto';
 import { EventService } from './event.service';
 
 @ApiTags('Events')
@@ -10,6 +11,14 @@ export class EventController {
 
   @Post('/create-event')
   async createEvent(@Body() createEventDto: CreateEventDto) {
-    return this.eventService.create(createEventDto);
+    return this.eventService.createEvent(createEventDto);
+  }
+
+  @Put('/:contractAddress/create-ticket')
+  async createTicket(
+    @Body() ticketDto: TicketDto,
+    @Param('contractAddress') contractAddress: string,
+  ) {
+    return this.eventService.createTicket(ticketDto, contractAddress);
   }
 }
