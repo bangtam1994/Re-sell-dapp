@@ -1,4 +1,5 @@
 import { FormEvent, useState } from "react";
+import * as EventContract from "./../contract/Ticket.json";
 import { useAccount } from "wagmi";
 import { Button } from "~~/components/Button";
 
@@ -8,7 +9,7 @@ type FormData = {
   ticketPrice: undefined | number;
   ticketQuantity: undefined | number;
   artistName: undefined | string;
-  artistAddress: undefined | string;
+  royalty: undefined | number;
 };
 
 const CreateEvent = () => {
@@ -20,7 +21,7 @@ const CreateEvent = () => {
     ticketPrice: undefined,
     ticketQuantity: undefined,
     artistName: undefined,
-    artistAddress: undefined,
+    royalty: undefined,
   });
 
   const inputHandler = (e: FormEvent<HTMLInputElement>) => {
@@ -38,7 +39,7 @@ const CreateEvent = () => {
       !formData.ticketPrice ||
       !formData.ticketQuantity ||
       !formData.artistName ||
-      !formData.artistAddress
+      !formData.royalty
     )
       return;
 
@@ -52,7 +53,7 @@ const CreateEvent = () => {
       ticketPrice: undefined,
       ticketQuantity: undefined,
       artistName: undefined,
-      artistAddress: undefined,
+      royalty: undefined,
     });
   };
   return (
@@ -64,6 +65,13 @@ const CreateEvent = () => {
           <h1 className="font-orbitron">Create Event</h1>
           <form onSubmit={submitHandler} className="flex flex-col items-center gap-2 my-8">
             <div className="flex flex-col gap-2 w-[80%]">
+              <input
+                onChange={inputHandler}
+                className="input text-gray-400"
+                name="artistName"
+                type="text"
+                placeholder="Artist Name"
+              />
               <input
                 required
                 onChange={inputHandler}
@@ -93,20 +101,22 @@ const CreateEvent = () => {
                 type="number"
                 placeholder="Ticket Quantity"
               />
-              <input
-                onChange={inputHandler}
-                className="input text-gray-400"
-                name="artistName"
-                type="text"
-                placeholder="Artist Name"
-              />
-              <input
-                onChange={inputHandler}
-                className="input text-gray-400"
-                name="artistAddress"
-                type="text"
-                placeholder="Artist Wallet Address"
-              />
+              <div>
+                <label htmlFor="royalty">Royalty {formData.royalty && `${formData.royalty}%`}</label>
+                <div className="flex gap-5">
+                  <span>0%</span>
+                  <input
+                    id="royalty"
+                    name="royalty"
+                    onChange={inputHandler}
+                    type="range"
+                    min={0}
+                    max="50"
+                    className="range range-primary"
+                  />
+                  <span>50%</span>
+                </div>
+              </div>
             </div>
             <Button full>Create</Button>
           </form>
