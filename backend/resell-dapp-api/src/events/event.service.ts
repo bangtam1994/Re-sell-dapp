@@ -23,6 +23,11 @@ export class EventService {
       if (ticket) {
         throw new Error('Ticket already exists');
       }
+      // check if the length of the ticket list is equal to the quantity of the event
+      if (event.ticketList.length === event.quantity) {
+        throw new Error('No more tickets available');
+      }
+      
       event.ticketList.push(ticketDto);
       return event.save();
     }
@@ -42,6 +47,26 @@ export class EventService {
       else {
         // change the onSale property of the tickets to true
         tickets.forEach(ticket => ticket.onSale = true);
+        return event.save();
+      }
+    }
+    else {
+      throw new Error('Event not found');
+    }
+  }
+
+  async buyTicket(buyerAddress: string, contractAddress: string) {
+    // check if at least one of the tickets of the event is on sale
+    const event = await this.eventModel.findOne({ contractAddress: contractAddress });
+    if (event) {
+      const tickets = event.ticketList.filter(ticket => ticket.onSale === true);
+      if (tickets.length === 0) {
+        throw new Error('No tickets on sale');
+      }
+      else {
+        // change the owner address of the first ticket on sale to the buyer address
+        tickets[0].owner_address = buyerAddress;
+        tickets[0].onSale = false;
         return event.save();
       }
     }
