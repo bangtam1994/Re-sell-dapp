@@ -91,7 +91,7 @@ export class EventService {
       throw new HttpException(
         {
           status: HttpStatus.NOT_FOUND,
-          error: 'Ticket not found',
+          error: 'Event or ticket not found',
         },
         HttpStatus.NOT_FOUND,
       );
