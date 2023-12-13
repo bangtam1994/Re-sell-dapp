@@ -86,7 +86,12 @@ export class EventService {
         ticket.onSale = ticketDto.onSale;
         ticket.price = ticketDto.price;
         ticket.date = ticketDto.date;
-        return await event.save();
+        // returns the updated document after finding and updating via mongo object
+        return await this.eventModel.findOneAndUpdate(
+          { _id: event._id },
+          { $set: event },
+          { returnDocument: 'after' },
+        );
       } else {
         throw new HttpException(
           {
