@@ -1,5 +1,7 @@
 import React, { FormEvent, useState } from "react";
+import * as EventContract from "../contract/Event.json";
 import { Ticket } from "../interfaces/interfaces";
+import { useAccount, useContractWrite } from "wagmi";
 import { Button } from "~~/components/Button";
 import { backendUrl } from "~~/pages/_app";
 
@@ -14,35 +16,44 @@ export const ResellInput = ({ mytickets, eventAddress }: ResellProps) => {
     success: undefined,
     text: "",
   });
+
+  const { data, isLoading, isSuccess, write } = useContractWrite({
+    address: eventAddress,
+    abi: EventContract.abi,
+    functionName: "listForSale",
+    args: [Number(formData?.ticket_address)],
+  });
+
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
 
     if (!formData || !formData.ticket_address || !formData.owner_address) return;
 
-    // transfer function
-
-    // POST to DB
-    try {
-      const payload = {
-        ...formData,
-        onSale: true,
-      };
-      console.log("payload>>", payload);
-      const response = await fetch(`${backendUrl}/${eventAddress}/update-ticket`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-      console.log(response);
-      if (response.status === 200) {
-        setMessage({ success: true, text: "Your ticket has been successfully put into the market for resale" });
-      } else setMessage({ success: false, text: "An error occurred, please retry" });
-    } catch (error) {
-      console.log(error);
-      setMessage({ success: false, text: "An error occurred, please retry" });
+    write(); // list function
+    if (isSuccess) {
+      // POST to DB
+      try {
+        const payload = {
+          ...formData,
+          onSale: true,
+        };
+        console.log("payload>>", payload);
+        const response = await fetch(`${backendUrl}/${eventAddress}/update-ticket`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+        console.log(response);
+        if (response.status === 200) {
+          setMessage({ success: true, text: "Your ticket has been successfully put into the market for resale" });
+        } else setMessage({ success: false, text: "An error occurred, please retry" });
+      } catch (error) {
+        console.log(error);
+        setMessage({ success: false, text: "An error occurred, please retry" });
+      }
     }
   };
 

@@ -2,6 +2,8 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { Buy } from "../../components/Buy";
+import { List } from "../../components/List";
 import { ResellInput } from "../../components/ResellInput";
 import { Ticket } from "../../interfaces/interfaces";
 import { backendUrl } from "../_app";
@@ -34,7 +36,7 @@ const Event = () => {
   };
 
   // todo, fetch from backend ?
-  const myTickets: Ticket[] | undefined = eventData && eventData?.ticketList.filter((ticket) => ticket.owner_address === address) 
+  const myTickets: Ticket[] | undefined = eventData && eventData?.ticketList.filter((ticket) => ticket.owner_address === address)
     const isAttending = myTickets ? myTickets.length > 0 : false
 
 
@@ -63,7 +65,7 @@ console.log(myTickets)
                   <span>Ticket remaining :</span><span>{eventData.totalTickets - eventData.ticketsBooked} </span>
                   <span>Event contract address :</span><span>{eventData.id}</span> {/* TO CHECK : id is contract address */}
                 </div>
-                
+
               </div>
             </div>
             {/* RIGHT SIDE */}
@@ -77,7 +79,11 @@ console.log(myTickets)
               />
               <h3 className="text-xl md:text-1xl font-jura  underline underline-offset-8 my-10"> MY TICKET</h3>
               {!isAttending || !myTickets ? (
-                <span className="font-light">You don't have any tickets yet</span>
+                <div>
+                  <span className="font-light">You don't have any tickets yet</span>
+                  <Buy eventAddress={eventData.id} />
+
+                </div>
               ) : (
                 isAttending &&
                 myTickets.length > 0 && (

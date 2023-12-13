@@ -13,6 +13,7 @@ contract Event is ERC721 {
 	uint256[] public onSale;
 	address public eventCreator;
 	uint256 public royalty;
+	uint256 public nftId;
 
 	constructor(
 		string memory _eventName,
@@ -29,9 +30,10 @@ contract Event is ERC721 {
 		artistName = _artistName;
 		royalty = _royalty;
 		eventCreator = msg.sender;
+		nftId = 1;
 	}
 
-	function buy(uint256 nftId) external payable {
+	function buy() external payable {
 		require(
 			ticketQuantity > 0 || onSale.length > 0, // changed this
 			"No more tickets available"
@@ -42,6 +44,7 @@ contract Event is ERC721 {
 			// why is the balanceOf increased?
 			payable(eventCreator).transfer(ticketPrice);
 			_safeMint(msg.sender, nftId);
+			nftId += 1;
 			if (msg.value > ticketPrice) {
 				payable(msg.sender).transfer(msg.value - ticketPrice);
 			}
