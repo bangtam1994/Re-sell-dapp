@@ -23,6 +23,8 @@ const jura = Jura({
   preload: false,
 });
 
+export const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 const ScaffoldEthApp = ({ Component, pageProps }: AppProps) => {
   return (
     <>
