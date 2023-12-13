@@ -13,7 +13,7 @@ export const Button = (props: Props) => {
   if (props.link) {
     return (
       <Link
-        className={`${props.large && "lg:btn-lg"} ${
+        className={`${props.large && "lg:btn-lg"}  font-orbitron ${
           props.full ? "btn w-[80%] h-12 sm:btn-sm md:btn-md" : "btn btn-xs sm:btn-sm md:btn-md"
         }`}
         href={props.link}
@@ -25,8 +25,8 @@ export const Button = (props: Props) => {
   return (
     <button
       onClick={props.onClick}
-      className={`${props.large && "lg:btn-lg"} ${
-        props.full ? "btn w-[80%] h-12 sm:btn-sm md:btn-md" : "btn btn-xs sm:btn-sm md:btn-md"
+      className={`${props.large && "lg:btn-lg"}  font-orbitron  ${
+        props.full ? "btn w-[90%] h-12 sm:btn-sm md:btn-md" : "btn btn-xs sm:btn-sm md:btn-md"
       }`}
     >
       {props.children}

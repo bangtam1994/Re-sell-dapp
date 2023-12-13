@@ -29,9 +29,9 @@ export const EventLink = ({ event }: Props) => {
       <li className="font-jura flex items-center rounded-md py-6 px-4 bg-[#b7bfbf] my-4 h-20 hover:opacity-80 active:scale-[99%] text-black">
         <div className="w-full grid grid-cols-5 justify-between center">
           <span>{event.name}</span>
-          <span>{event.artist}</span>
+          <span>{event.artistName}</span>
           <span>
-            {new Date(event.date).toLocaleDateString("en-EN", {
+            {new Date(event.eventDate * 1000).toLocaleDateString("en-EN", {
               weekday: "short",
               year: "numeric",
               month: "long",

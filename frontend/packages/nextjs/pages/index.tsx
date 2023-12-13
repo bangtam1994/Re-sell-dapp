@@ -1,28 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Event } from "../interfaces/interfaces";
-import dummyDataJson from "./dummyEvents.json";
+import { Event, EventRaw } from "../interfaces/interfaces";
+import { backendUrl } from "./_app";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { Button } from "~~/components/Button";
 import { Divider } from "~~/components/Divider";
 import { EventLink } from "~~/components/Event";
 import { MetaHeader } from "~~/components/MetaHeader";
+import { convertToEvent } from "~~/utils/convertToEvents";
+
+interface eventListResult {
+  attendingEvents: Event[];
+  myEvents: Event[];
+  remainingEvents: Event[];
+}
 
 const Home: NextPage = () => {
   const { address, isDisconnected } = useAccount();
 
-  // todo: hook for data fetching
-  const dummyData: Event[] = dummyDataJson.map((el: Event) => {
-    if (el.artistAddress === "YOUR_ADDRESS") {
-      return { ...el, artistAddress: process.env.NEXT_PUBLIC_WALLET_ADDRESS || "my_wallet_address" };
-    } else return el;
-  });
-  const [events, setEvents] = useState<Event[]>(dummyData);
+  const [events, setEvents] = useState<eventListResult>();
 
-  const myEvents = events.filter(event => event.artistAddress === address);
-  const eventsAttending = events.filter(event => event.attending);
-  const remainingEvents = events.filter(event => event.artistAddress !== address && !event.attending);
+  const myEvents = events?.myEvents;
+  const attendingEvents = events?.attendingEvents;
+  const remainingEvents = events?.remainingEvents;
+
+  const fetchEvents = async () => {
+    try {
+      const response = await fetch(`${backendUrl}/events/${address}`);
+      const resultApi = await response.json();
+      const eventsParsed = {
+        myEvents: resultApi.myEvents.map((eventRaw: EventRaw) => convertToEvent(eventRaw)),
+        attendingEvents: resultApi.attendingEvents.map((eventRaw: EventRaw) => convertToEvent(eventRaw)),
+        remainingEvents: resultApi.remainingEvents.map((eventRaw: EventRaw) => convertToEvent(eventRaw)),
+      };
+      setEvents(eventsParsed);
+    } catch (error) {
+      console.error("Error :", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
 
   return (
     <div className="relative">
@@ -62,9 +82,9 @@ const Home: NextPage = () => {
             </ul>
           )}
           <Divider>EVENTS I AM ATTENDING</Divider>
-          {eventsAttending && (
+          {attendingEvents && (
             <ul>
-              {eventsAttending.map(event => (
+              {attendingEvents.map(event => (
                 <EventLink event={event} key={event.id} />
               ))}
             </ul>

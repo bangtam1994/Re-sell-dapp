@@ -1,5 +1,24 @@
 # Frontend - 🏗 Scaffold-ETH 2
 
+# DEV MODE :
+
+Please add the .env.local near the .env.example using the same arguments
+
+```
+NEXT_PUBLIC_WALLET_ADDRESS=""
+NEXT_PUBLIC_BACKEND_URL="http://localhost:3001"
+```
+
+Launch the backend with
+
+```
+cd backend/resell-dapp-api/
+yarn
+yarn start
+```
+
+& Edit the port in main.ts to 3001
+
 <h4 align="center">
   <a href="https://docs.scaffoldeth.io">Documentation</a> |
   <a href="https://scaffoldeth.io">Website</a>
