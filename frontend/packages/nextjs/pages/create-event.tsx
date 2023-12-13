@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
 import * as EventContract from "./../contract/Event.json";
 import { backendUrl } from "./_app";
-import { createPublicClient, createWalletClient, custom, getContractAddress, http } from "viem";
+import { createPublicClient, createWalletClient, custom, getContractAddress, http, parseEther } from "viem";
 import { useAccount, useNetwork } from "wagmi";
 import { Button } from "~~/components/Button";
 
@@ -71,7 +71,7 @@ const CreateEvent = () => {
         args: [
           formData.eventName,
           eventDataAsUnixTimestamp,
-          formData.ticketPrice,
+          parseEther(formData.ticketPrice.toString()),
           formData.ticketQuantity,
           formData.artistName,
           formData.royalty,

@@ -11,20 +11,17 @@ interface ResellProps {
 }
 
 export const ResellInput = ({ mytickets, eventAddress }: ResellProps) => {
-  // hardcoded temporary
-  const contractAddress = "0x28F18314FD694EA8f3FC87D7430313B0c32f6E53";
-
-  const { data, isLoading, isSuccess, write } = useContractWrite({
-    address: contractAddress,
-    abi: EventContract.abi,
-    functionName: "listForSale",
-    args: [1],
-  });
-
   const [formData, setFormData] = useState<Partial<Ticket> | undefined>({ ticket_address: "" });
   const [message, setMessage] = useState<{ success: boolean | undefined; text: string }>({
     success: undefined,
     text: "",
+  });
+
+  const { data, isLoading, isSuccess, write } = useContractWrite({
+    address: eventAddress,
+    abi: EventContract.abi,
+    functionName: "listForSale",
+    args: [Number(formData?.ticket_address)],
   });
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -33,28 +30,30 @@ export const ResellInput = ({ mytickets, eventAddress }: ResellProps) => {
 
     if (!formData || !formData.ticket_address || !formData.owner_address) return;
 
-    write(formData.ticket_address); // list function
-    // POST to DB
-    try {
-      const payload = {
-        ...formData,
-        onSale: true,
-      };
-      console.log("payload>>", payload);
-      const response = await fetch(`${backendUrl}/${eventAddress}/update-ticket`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-      console.log(response);
-      if (response.status === 200) {
-        setMessage({ success: true, text: "Your ticket has been successfully put into the market for resale" });
-      } else setMessage({ success: false, text: "An error occurred, please retry" });
-    } catch (error) {
-      console.log(error);
-      setMessage({ success: false, text: "An error occurred, please retry" });
+    write(); // list function
+    if (isSuccess) {
+      // POST to DB
+      try {
+        const payload = {
+          ...formData,
+          onSale: true,
+        };
+        console.log("payload>>", payload);
+        const response = await fetch(`${backendUrl}/${eventAddress}/update-ticket`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+        console.log(response);
+        if (response.status === 200) {
+          setMessage({ success: true, text: "Your ticket has been successfully put into the market for resale" });
+        } else setMessage({ success: false, text: "An error occurred, please retry" });
+      } catch (error) {
+        console.log(error);
+        setMessage({ success: false, text: "An error occurred, please retry" });
+      }
     }
   };
 

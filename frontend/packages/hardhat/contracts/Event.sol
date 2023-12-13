@@ -30,7 +30,7 @@ contract Event is ERC721 {
 		artistName = _artistName;
 		royalty = _royalty;
 		eventCreator = msg.sender;
-		nftId = 0;
+		nftId = 1;
 	}
 
 	function buy() external payable {

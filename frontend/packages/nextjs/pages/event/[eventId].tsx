@@ -81,7 +81,8 @@ console.log(myTickets)
               {!isAttending || !myTickets ? (
                 <div>
                   <span className="font-light">You don't have any tickets yet</span>
-                  <Buy />
+                  <Buy eventAddress={eventData.id} />
+
                 </div>
               ) : (
                 isAttending &&
