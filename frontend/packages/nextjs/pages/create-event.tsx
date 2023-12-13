@@ -107,8 +107,8 @@ const CreateEvent = () => {
           body: JSON.stringify(payload),
         });
         const resultApi = await response.json();
-        if (resultApi._id) {
-          router.push(`/event/${resultApi._id}`);
+        if (resultApi.contractAddress) {
+          router.push(`/event/${resultApi.contractAddress}`);
         } else throw new Error("An issue occured, the event wasn't submitted to backend");
       } else throw new Error("An issue occurred, the contract wasn't deployed successfully");
     } catch (error) {

@@ -25,7 +25,7 @@ export const Button = (props: Props) => {
   return (
     <button
       onClick={props.onClick}
-      className={`${props.large && "lg:btn-lg"}  font-orbitron mt-8 ${
+      className={`${props.large && "lg:btn-lg"}  font-orbitron  ${
         props.full ? "btn w-[90%] h-12 sm:btn-sm md:btn-md" : "btn btn-xs sm:btn-sm md:btn-md"
       }`}
     >

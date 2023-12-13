@@ -15,6 +15,7 @@ export type Event = {
   price: number | null;
   ticketsBooked: number;
   totalTickets: number;
+  ticketList: Ticket[];
   thumbnail: string;
 };
 
@@ -27,6 +28,6 @@ export type EventRaw = {
   name: string;
   price: number;
   quantity: number;
-  ticketList: [];
+  ticketList: Ticket[];
   _id: string;
 };

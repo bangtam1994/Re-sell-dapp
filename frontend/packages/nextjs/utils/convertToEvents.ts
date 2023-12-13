@@ -1,9 +1,9 @@
 import { Event, EventRaw } from "~~/interfaces/interfaces";
 
 export const convertToEvent = (event: EventRaw): Event => {
-  const { _id, name, artistAddress, artistName, eventDate, price, quantity, ticketList } = event;
+  const { contractAddress, name, artistAddress, artistName, eventDate, price, quantity, ticketList } = event;
   return {
-    id: _id,
+    id: contractAddress,
     name,
     artistName,
     artistAddress,
@@ -11,6 +11,7 @@ export const convertToEvent = (event: EventRaw): Event => {
     price,
     totalTickets: quantity,
     ticketsBooked: ticketList.length,
-    thumbnail: `event_${Math.floor(Math.random() * 3) + 1}`,
+    thumbnail: `/event_${Math.floor(Math.random() * 3) + 1}.jpg`,
+    ticketList,
   };
 };
