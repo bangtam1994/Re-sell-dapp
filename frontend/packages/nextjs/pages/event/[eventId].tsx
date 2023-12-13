@@ -34,8 +34,7 @@ const Event = () => {
   };
 
   // todo, fetch from backend ?
-  const myTickets: Ticket[] | undefined = eventData && eventData?.ticketList
-  // .filter((ticket) => ticket.owner_address === address) 
+  const myTickets: Ticket[] | undefined = eventData && eventData?.ticketList.filter((ticket) => ticket.owner_address === address) 
     const isAttending = myTickets ? myTickets.length > 0 : false
 
 
@@ -83,16 +82,15 @@ console.log(myTickets)
                 isAttending &&
                 myTickets.length > 0 && (
                   <div>
-                    <div className="flex gap-8">
+                    <div className="grid grid-cols-3 gap-8">
                       {myTickets.map(ticket => (
                         <div
                           className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
                           key={ticket.owner_address}
                         >
-                          <span className="mb-2 font-medium tracking-tight text-gray-900 dark:text-white flex flex-col gap-3">
+                          <span className="mb-2 font-medium text-sm tracking-tight text-gray-900 dark:text-white flex flex-col gap-3">
                             <span>Ticket address : {ticket.ticket_address}</span>
-               
-                           <span> Minted on : {ticket.date}</span>
+                           <span> Price : {ticket.price}</span>
                             <span>On Sale : {ticket.onSale? <div className="text-[#28bf0d]">YES</div> : <div className="text-[#e30505]">NO</div>}</span>
                           </span>
                         </div>
