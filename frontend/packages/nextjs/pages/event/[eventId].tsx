@@ -18,10 +18,9 @@ const Event = () => {
   const router = useRouter();
   const { address } = useAccount();
   const [eventData, setEventData] = useState<Event>();
-
   const [isLoadingEvents, setIsLoadingEvents] = useState(false);
 
-  // todo: hook for data fetching GET - Event Data/:id
+
 
   const fetchEvent = async () => {
     setIsLoadingEvents(true);
@@ -79,11 +78,9 @@ console.log(myTickets)
               />
               <h3 className="text-xl md:text-1xl font-jura  underline underline-offset-8 my-10"> MY TICKET</h3>
               {!isAttending || !myTickets ? (
-                <div>
-                  <span className="font-light">You don't have any tickets yet</span>
-                  <Buy eventAddress={eventData.id} />
+             
+                  <Buy event={eventData} />
 
-                </div>
               ) : (
                 isAttending &&
                 myTickets.length > 0 && (

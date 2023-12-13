@@ -41,8 +41,10 @@ const Home: NextPage = () => {
   };
 
   useEffect(() => {
-    fetchEvents();
-  }, []);
+    if (address) {
+      fetchEvents();
+    }
+  }, [address]);
 
   return (
     <div className="relative">

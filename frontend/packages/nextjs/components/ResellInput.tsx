@@ -17,7 +17,7 @@ export const ResellInput = ({ mytickets, eventAddress }: ResellProps) => {
     text: "",
   });
 
-  const { data, isLoading, isSuccess, write } = useContractWrite({
+  const { writeAsync } = useContractWrite({
     address: eventAddress,
     abi: EventContract.abi,
     functionName: "listForSale",
@@ -30,15 +30,16 @@ export const ResellInput = ({ mytickets, eventAddress }: ResellProps) => {
 
     if (!formData || !formData.ticket_address || !formData.owner_address) return;
 
-    write(); // list function
-    if (isSuccess) {
+    const responseWrite = await writeAsync(); // list function
+
+    if (responseWrite.hash) {
       // POST to DB
       try {
         const payload = {
           ...formData,
           onSale: true,
         };
-        console.log("payload>>", payload);
+
         const response = await fetch(`${backendUrl}/${eventAddress}/update-ticket`, {
           method: "PUT",
           headers: {
@@ -46,7 +47,7 @@ export const ResellInput = ({ mytickets, eventAddress }: ResellProps) => {
           },
           body: JSON.stringify(payload),
         });
-        console.log(response);
+
         if (response.status === 200) {
           setMessage({ success: true, text: "Your ticket has been successfully put into the market for resale" });
         } else setMessage({ success: false, text: "An error occurred, please retry" });

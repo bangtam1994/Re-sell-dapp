@@ -33,7 +33,7 @@ contract Event is ERC721 {
 		nftId = 1;
 	}
 
-	function buy() external payable {
+	function buy() external payable returns (uint256) {
 		require(
 			ticketQuantity > 0 || onSale.length > 0, // changed this
 			"No more tickets available"
@@ -48,20 +48,22 @@ contract Event is ERC721 {
 			if (msg.value > ticketPrice) {
 				payable(msg.sender).transfer(msg.value - ticketPrice);
 			}
+			return nftId;
 		} else {
 			uint256 nftIdOnSale = onSale[0];
 			updateOnSale();
 			payable(eventCreator).transfer(royaltyCalculation());
 			_safeTransfer(ownerOf(nftIdOnSale), msg.sender, nftIdOnSale, "");
+			return nftIdOnSale;
 		}
 	}
 
-	function listForSale(uint256 nftId) external {
+	function listForSale(uint256 _nftId) external {
 		require(
-			ownerOf(nftId) == msg.sender,
+			ownerOf(_nftId) == msg.sender,
 			"You are not the owner of this ticket"
 		);
-		onSale.push(nftId);
+		onSale.push(_nftId);
 	}
 
 	function updateOnSale() private {

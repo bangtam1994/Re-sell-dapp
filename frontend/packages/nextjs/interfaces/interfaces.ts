@@ -12,7 +12,7 @@ export type Event = {
   artistName: string;
   artistAddress: string;
   eventDate: string;
-  price: number | null;
+  price: number;
   ticketsBooked: number;
   totalTickets: number;
   ticketList: Ticket[];
