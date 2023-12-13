@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Buy } from "../../components/Buy";
-import { List } from "../../components/List";
 import { ResellInput } from "../../components/ResellInput";
 import { Ticket } from "../../interfaces/interfaces";
 import { backendUrl } from "../_app";
@@ -38,11 +37,11 @@ const Event = () => {
   const myTickets: Ticket[] | undefined = eventData && eventData?.ticketList.filter((ticket) => ticket.owner_address === address)
     const isAttending = myTickets ? myTickets.length > 0 : false
 
-
+const canBuy = eventData && ((eventData?.totalTickets - eventData?.ticketsBooked) !== 0 ? true : eventData?.ticketList.some((ticket)=> ticket.onSale === true))
   useEffect(() => {
     fetchEvent();
   }, []);
-console.log(myTickets)
+
   return (
     <div className="relative mx-4 md:mx-10 lg:mx-16 xl:mx-48 2xl:mx-80 mt-10">
       <h1 className="text-center font-orbitron text-4xl md:text-3xl font-medium m-0">EVENT INFORMATION</h1>
@@ -59,7 +58,12 @@ console.log(myTickets)
               <div className="flex gap-4 break-words">
                 <div className="grid grid-cols-2 gap-4">
                   <span>Artist Name :</span> <span>{eventData.artistName} </span>
-                  <span>Date :</span> <span>{eventData.eventDate} </span>
+                  <span>Date :</span> <span>{new Date(Number(eventData.eventDate) ).toLocaleDateString("en-EN", {
+              weekday: "short",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })} </span>
                   <span>Ticket Price :</span><span>{eventData.price ? `${eventData.price} ETH` : "N/A"} </span>
                   <span>Ticket remaining :</span><span>{eventData.totalTickets - eventData.ticketsBooked} </span>
                   <span>Event contract address :</span><span>{eventData.id}</span> {/* TO CHECK : id is contract address */}
@@ -77,11 +81,11 @@ console.log(myTickets)
                 style={{ margin: "0px auto" }}
               />
               <h3 className="text-xl md:text-1xl font-jura  underline underline-offset-8 my-10"> MY TICKET</h3>
-              {!isAttending || !myTickets ? (
+              {!isAttending || !myTickets ? (canBuy ? (
              
                   <Buy event={eventData} />
 
-              ) : (
+              ) : <span>Event is sold out! </span>): (
                 isAttending &&
                 myTickets.length > 0 && (
                   <div>
@@ -92,7 +96,7 @@ console.log(myTickets)
                           key={ticket.owner_address}
                         >
                           <span className="mb-2 font-medium text-sm tracking-tight text-gray-900 dark:text-white flex flex-col gap-3">
-                            <span>Ticket address : {ticket.ticket_address}</span>
+                            <span>Ticket id : {ticket.ticket_address}</span>
                            <span> Price : {ticket.price}</span>
                             <span>On Sale : {ticket.onSale? <div className="text-[#28bf0d]">YES</div> : <div className="text-[#e30505]">NO</div>}</span>
                           </span>

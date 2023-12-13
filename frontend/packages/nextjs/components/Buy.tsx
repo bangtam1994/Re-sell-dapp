@@ -81,7 +81,7 @@ export function Buy({ event }: BuyProps) {
 
   return (
     <div className="flex flex-col">
-      <span className="font-light">You don't have any tickets yet</span>
+      <span className="font-light mb-10">You don't have any tickets yet</span>
       {error ? (
         <span>{error}</span>
       ) : (
