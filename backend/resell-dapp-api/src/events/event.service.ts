@@ -70,39 +70,38 @@ export class EventService {
     }
   }
 
-  async updateTicket(
-    eventAddress: string,
-    ticketDto: TicketDto,
-  ): Promise<Event> {
-    const event = await this.eventModel.findOne({
-      contractAddress: eventAddress,
-    });
-    if (event) {
-      const ticket = event.ticketList.find(
-        (ticket) => ticket.ticket_address === ticketDto.ticket_address,
-      );
-      if (ticket) {
-        ticket.owner_address = ticketDto.owner_address;
-        ticket.onSale = ticketDto.onSale;
-        ticket.price = ticketDto.price;
-        ticket.date = ticketDto.date;
-        return await event.save();
-      } else {
-        throw new HttpException(
-          {
-            status: HttpStatus.NOT_FOUND,
-            error: 'Ticket not found',
-          },
-          HttpStatus.NOT_FOUND,
-        );
-      }
-    } else {
+  async updateTicket(eventAddress: string, ticketDto: TicketDto) {
+    const result = await this.eventModel.updateOne(
+      {
+        contractAddress: eventAddress,
+        'ticketList.ticket_address': ticketDto.ticket_address,
+      },
+      {
+        $set: {
+          'ticketList.$.ticket_address': ticketDto.ticket_address,
+          'ticketList.$.owner_address': ticketDto.owner_address,
+          'ticketList.$.onSale': ticketDto.onSale,
+          'ticketList.$.price': ticketDto.price,
+          'ticketList.$.date': ticketDto.date,
+        },
+      },
+    );
+
+    if (result.matchedCount == 0) {
       throw new HttpException(
         {
           status: HttpStatus.NOT_FOUND,
-          error: 'Event not found',
+          error: 'Event or ticket not found',
         },
         HttpStatus.NOT_FOUND,
+      );
+    } else if (result.modifiedCount == 0) {
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          error: 'Ticket not updated',
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }

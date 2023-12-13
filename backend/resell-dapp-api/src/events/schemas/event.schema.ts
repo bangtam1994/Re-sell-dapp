@@ -1,8 +1,15 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { TicketDto } from '../dto/ticket.dto';
 
 export type EventDocument = HydratedDocument<Event>;
+
+interface Ticket {
+  ticket_address: string;
+  owner_address: string;
+  onSale: boolean;
+  price: number;
+  date: string;
+}
 
 @Schema()
 export class Event {
@@ -28,6 +35,6 @@ export class Event {
   quantity: number;
 
   @Prop()
-  ticketList: TicketDto[];
+  ticketList: Ticket[];
 }
 export const EventSchema = SchemaFactory.createForClass(Event);
