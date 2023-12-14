@@ -34,8 +34,7 @@ export function Buy({ event }: BuyProps) {
 
   const onSubmit = async () => {
     const response = await writeAsync();
-
-    if (response.hash) {
+    if (response.hash && formData.owner_address) {
       try {
         let request;
 
@@ -55,6 +54,8 @@ export function Buy({ event }: BuyProps) {
           };
         } else {
           // IF no tickets left : transfer ownership so update-tickets
+          const payload = { ...formData, ticket_address: (event.ticketList.length + 1).toString() };
+          console.log(payload);
           request = {
             url: `${backendUrl}/${event.id}/update-ticket`,
             options: {
@@ -62,7 +63,7 @@ export function Buy({ event }: BuyProps) {
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify(formData),
+              body: JSON.stringify(payload),
             },
           };
         }
