@@ -19,6 +19,17 @@ const CreateEvent = () => {
   const { isDisconnected, address } = useAccount();
   const { chain } = useNetwork();
   const router = useRouter();
+
+  const walletClient = createWalletClient({
+    chain: chain,
+    transport: custom(window.ethereum!),
+  });
+
+  const publicClient = createPublicClient({
+    chain: chain,
+    transport: http(),
+  });
+
   const [formData, setFormData] = useState<FormData>({
     eventName: undefined,
     eventDate: undefined,
@@ -53,16 +64,6 @@ const CreateEvent = () => {
     const eventDataAsUnixTimestamp = Math.round(new Date(formData.eventDate).getTime());
 
     try {
-      const walletClient = createWalletClient({
-        chain: chain,
-        transport: custom(window.ethereum),
-      });
-
-      const publicClient = createPublicClient({
-        chain: chain,
-        transport: http(),
-      });
-
       if (!address) throw new Error("No address available");
 
       await walletClient.deployContract({
